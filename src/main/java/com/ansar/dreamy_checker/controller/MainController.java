@@ -1,46 +1,37 @@
 package com.ansar.dreamy_checker.controller;
 
 import com.ansar.dreamy_checker.model.pojo.Product;
+import com.ansar.dreamy_checker.view.components.ProductCheckBoxTableCell;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.stage.FileChooser;
-import javafx.stage.Stage;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Component;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.util.Iterator;
 import java.util.ResourceBundle;
 
 @Component
 public class MainController implements Initializable {
 
-    public TextField kalaCodeTextField;
+    private @FXML TextField kalaCodeTextField;
 
-    public TableView<Product> kalaTable;
-    public TableColumn<Product, String> kalaAnbarColumn;
-    public TableColumn<Product, String> kalaPriceColumn;
-    public TableColumn<Product, String> kalaNameColumn;
-    public TableColumn<Product, String> kalaIdColumn;
-    public TableColumn<Product, Boolean> isSelected;
+    private @FXML TableView<Product> kalaTable;
+    private @FXML TableColumn<Product, String> kalaAnbarColumn;
+    private @FXML TableColumn<Product, String> kalaPriceColumn;
+    private @FXML TableColumn<Product, String> kalaNameColumn;
+    private @FXML TableColumn<Product, String> kalaIdColumn;
+    private @FXML TableColumn<Product, Boolean> isSelected;
 
     private static final ObservableList<Product> INPUT_PRODUCTS = FXCollections.observableArrayList();
     private static final FileChooser FILE_CHOOSER = new FileChooser();
@@ -51,8 +42,12 @@ public class MainController implements Initializable {
         tableConfiguration();
         inputTextFieldConfiguration();
 
-        Product product = new Product("1", "سلام", "65132", "13532");
-        kalaTable.getItems().add(product);
+        kalaTable.getItems().addAll(
+                new Product("1", "dwq", "456", "110"),
+                new Product("2", "dwqdsa", "41153", "120"),
+                new Product("3", "fweijhfew", "14564156", "130"),
+                new Product("4", "fewfew", "1541", "140")
+        );
 
     }
 
@@ -103,14 +98,16 @@ public class MainController implements Initializable {
         kalaNameColumn.setCellValueFactory(new PropertyValueFactory<Product, String>("name"));
         kalaIdColumn.setCellValueFactory(new PropertyValueFactory<Product, String>("id"));
 
-        isSelected.setCellFactory(param -> new CheckBoxTableCell<>());
+        isSelected.setCellFactory(param -> new ProductCheckBoxTableCell());
         isSelected.setCellValueFactory(param -> new SimpleBooleanProperty(INPUT_PRODUCTS.contains(param.getValue())));
     }
 
     private void inputTextFieldConfiguration(){
         kalaCodeTextField.setOnKeyPressed(event -> {
-            if (event.getCode() == KeyCode.ENTER){
-                // Todo
+            if (event.getCode() == KeyCode.ENTER && !kalaCodeTextField.getText().equals("")){
+                Product product = new Product(kalaCodeTextField.getText());
+                INPUT_PRODUCTS.add(product);
+                kalaTable.refresh();
                 kalaCodeTextField.clear();
             }
         });
