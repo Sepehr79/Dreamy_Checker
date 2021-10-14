@@ -1,7 +1,6 @@
 package com.ansar.dreamy_checker.controller;
 
 import com.ansar.dreamy_checker.model.pojo.Product;
-import com.ansar.dreamy_checker.view.components.ProductCheckBoxTableCell;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -11,6 +10,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.stage.FileChooser;
@@ -42,13 +42,7 @@ public class MainController implements Initializable {
         tableConfiguration();
         inputTextFieldConfiguration();
 
-        kalaTable.getItems().addAll(
-                new Product("1", "dwq", "456", "110"),
-                new Product("2", "dwqdsa", "41153", "120"),
-                new Product("3", "fweijhfew", "14564156", "130"),
-                new Product("4", "fewfew", "1541", "140")
-        );
-
+        testConfiguration();
     }
 
     public void selectFile(ActionEvent actionEvent) throws IOException, SQLException {
@@ -84,21 +78,16 @@ public class MainController implements Initializable {
 //                }
 //            }
 //        }
-
-        Product product = new Product();
-        product.setId("1");
-        INPUT_PRODUCTS.add(product);
-        kalaTable.refresh();
     }
 
     private void tableConfiguration(){
         // Columns
-        kalaAnbarColumn.setCellValueFactory(new PropertyValueFactory<Product, String>("anbarId"));
-        kalaPriceColumn.setCellValueFactory(new PropertyValueFactory<Product, String>("price"));
-        kalaNameColumn.setCellValueFactory(new PropertyValueFactory<Product, String>("name"));
-        kalaIdColumn.setCellValueFactory(new PropertyValueFactory<Product, String>("id"));
+        kalaAnbarColumn.setCellValueFactory(new PropertyValueFactory<>("anbarId"));
+        kalaPriceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
+        kalaNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        kalaIdColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
 
-        isSelected.setCellFactory(param -> new ProductCheckBoxTableCell());
+        isSelected.setCellFactory(param -> new CheckBoxTableCell<>());
         isSelected.setCellValueFactory(param -> new SimpleBooleanProperty(INPUT_PRODUCTS.contains(param.getValue())));
     }
 
@@ -111,5 +100,14 @@ public class MainController implements Initializable {
                 kalaCodeTextField.clear();
             }
         });
+    }
+
+    private void testConfiguration(){
+        kalaTable.getItems().addAll(
+                new Product("1", "dwq", "456", "110"),
+                new Product("2", "dwqdsa", "41153", "120"),
+                new Product("3", "fweijhfew", "14564156", "130"),
+                new Product("4", "fewfew", "1541", "140")
+        );
     }
 }
