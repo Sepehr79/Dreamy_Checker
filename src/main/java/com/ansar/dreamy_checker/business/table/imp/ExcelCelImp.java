@@ -4,12 +4,10 @@ import com.ansar.dreamy_checker.business.table.ExcelCell;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString(of = "value")
 public class ExcelCelImp implements ExcelCell {
 
     private Object value;

@@ -9,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @Data
 @RequiredArgsConstructor
@@ -17,14 +16,13 @@ public class ExcelRowImp implements ExcelRow {
 
     private final List<ExcelCell> excelCells;
 
-    public static ExcelRow of(Object[] inputs, Set<String> columnNames) throws IrregularTableException {
-        if (inputs.length != columnNames.size())
+    public static ExcelRow of(String[] columnNames ,Object[] inputs) throws IrregularTableException {
+        if (inputs.length != columnNames.length)
             throw new IrregularTableException();
 
-        List<String> columns = new ArrayList<>(columnNames);
         List<ExcelCell> excelCells = new ArrayList<>();
         for (int i = 0; i < inputs.length; i++){
-            ExcelCell excelCell = new ExcelCelImp(inputs[i], columns.get(columns.size() - i - 1));
+            ExcelCell excelCell = new ExcelCelImp(inputs[i], columnNames[i]);
             excelCells.add(excelCell);
         }
         return new ExcelRowImp(excelCells);
