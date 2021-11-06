@@ -1,6 +1,6 @@
 package com.ansar.dreamy_checker.business.table.imp;
 
-import com.ansar.dreamy_checker.business.table.ExcelCell;
+import com.ansar.dreamy_checker.business.table.TableCell;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ExcelCelImp implements ExcelCell {
+public class SimpleTableCell implements TableCell {
 
     private Object value;
 

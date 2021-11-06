@@ -4,10 +4,10 @@ import com.ansar.dreamy_checker.business.table.exception.IrregularTableException
 
 import java.util.List;
 
-public interface ExcelTable {
+public interface Table {
 
     void add(Object ...inputs) throws IrregularTableException;
 
-    List<ExcelRow> getExcelRows();
+    List<TableRow> getTableRows();
 
 }

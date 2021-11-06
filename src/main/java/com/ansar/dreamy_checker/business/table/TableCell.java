@@ -1,6 +1,6 @@
 package com.ansar.dreamy_checker.business.table;
 
-public interface ExcelCell {
+public interface TableCell {
 
     Object getValue();
 

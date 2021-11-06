@@ -1,7 +1,7 @@
 package com.ansar.dreamy_checker.business.table.imp;
 
-import com.ansar.dreamy_checker.business.table.ExcelCell;
-import com.ansar.dreamy_checker.business.table.ExcelRow;
+import com.ansar.dreamy_checker.business.table.TableCell;
+import com.ansar.dreamy_checker.business.table.TableRow;
 import com.ansar.dreamy_checker.business.table.exception.IrregularTableException;
 import com.ansar.dreamy_checker.business.table.exception.TableColumnNotFoundException;
 import lombok.Data;
@@ -12,24 +12,24 @@ import java.util.List;
 
 @Data
 @RequiredArgsConstructor
-public class ExcelRowImp implements ExcelRow {
+public class SimpleTableRow implements TableRow {
 
-    private final List<ExcelCell> excelCells;
+    private final List<TableCell> excelCells;
 
-    public static ExcelRow of(String[] columnNames ,Object[] inputs) throws IrregularTableException {
+    public static TableRow of(String[] columnNames , Object[] inputs) throws IrregularTableException {
         if (inputs.length != columnNames.length)
             throw new IrregularTableException();
 
-        List<ExcelCell> excelCells = new ArrayList<>();
+        List<TableCell> excelCells = new ArrayList<>();
         for (int i = 0; i < inputs.length; i++){
-            ExcelCell excelCell = new ExcelCelImp(inputs[i], columnNames[i]);
+            TableCell excelCell = new SimpleTableCell(inputs[i], columnNames[i]);
             excelCells.add(excelCell);
         }
-        return new ExcelRowImp(excelCells);
+        return new SimpleTableRow(excelCells);
     }
 
     @Override
-    public ExcelCell getCell(String columnName) throws TableColumnNotFoundException {
+    public TableCell getCell(String columnName) throws TableColumnNotFoundException {
         return excelCells.stream().filter(excelCell -> excelCell.getColumnName().equals(columnName))
                 .findFirst().orElseThrow(TableColumnNotFoundException::new);
     }

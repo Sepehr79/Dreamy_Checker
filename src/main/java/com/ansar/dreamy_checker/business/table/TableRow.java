@@ -2,8 +2,8 @@ package com.ansar.dreamy_checker.business.table;
 
 import com.ansar.dreamy_checker.business.table.exception.TableColumnNotFoundException;
 
-public interface ExcelRow {
+public interface TableRow {
 
-    ExcelCell getCell(String columnName) throws TableColumnNotFoundException;
+    TableCell getCell(String columnName) throws TableColumnNotFoundException;
 
 }
