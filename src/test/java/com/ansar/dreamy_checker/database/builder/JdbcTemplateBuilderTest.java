@@ -11,13 +11,9 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.util.logging.Logger;
-
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {Main.class})
 class JdbcTemplateBuilderTest {
-
-    private static final Logger LOGGER = Logger.getLogger(JdbcTemplateBuilderTest.class.getName());
 
     @Autowired
     JdbcTemplateBuilder jdbcTemplateBuilder;

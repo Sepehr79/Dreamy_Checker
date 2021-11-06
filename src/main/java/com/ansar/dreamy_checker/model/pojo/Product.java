@@ -4,7 +4,6 @@ import lombok.*;
 
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
 @EqualsAndHashCode(of = "id")
 @RequiredArgsConstructor
 public class Product {

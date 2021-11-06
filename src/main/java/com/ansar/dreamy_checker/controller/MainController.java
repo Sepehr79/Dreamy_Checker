@@ -14,8 +14,15 @@ import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Component;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -45,17 +52,24 @@ public class MainController implements Initializable {
         testConfiguration();
     }
 
-    public void selectFile(ActionEvent actionEvent) throws IOException, SQLException {
+    public void selectFile(ActionEvent actionEvent) throws IOException, SQLException, InvalidFormatException {
 //        File excelFile = FILE_CHOOSER.showOpenDialog(new Stage());
-//        FileInputStream excelInputStream = new FileInputStream(excelFile);
-//
+//        FileInputStream fileInputStream = new FileInputStream(excelFile);
 //        Workbook workbook = null;
-//
-//        if (excelFile.getName().endsWith("xls")){
-//            workbook = new HSSFWorkbook(excelInputStream);
-//        }else if (excelFile.getName().endsWith("xlsx")){
-//            workbook = new XSSFWorkbook(excelInputStream);
+//        switch (excelFile.getName().replaceAll(".*[.]", "")){
+//            case "xls":
+//                workbook = new HSSFWorkbook(fileInputStream);
+//                break;
+//            case "xlsx":
+//                workbook = new XSSFWorkbook(fileInputStream);
+//                break;
+//            case "xlsm":
+//                workbook = new XSSFWorkbook(
+//                        OPCPackage.open(fileInputStream)
+//                );
+//                break;
 //        }
+//
 //        assert workbook != null;
 //        Sheet firstSheet = workbook.getSheetAt(0);
 //        Iterator<Row> iterator = firstSheet.iterator();
@@ -78,6 +92,23 @@ public class MainController implements Initializable {
 //                }
 //            }
 //        }
+
+        FileChooser fileChooser = new FileChooser();
+        try(FileInputStream inputStream = new FileInputStream(fileChooser.showOpenDialog(new Stage()))) {
+            XSSFWorkbook xssfWorkbook = new XSSFWorkbook(inputStream);
+            XSSFSheet xssfSheet = xssfWorkbook.getSheetAt(0);
+
+            Row firstRow = xssfSheet.getRow(0);
+            for (Cell column : firstRow) {
+                switch (column.getCellType()) {
+                    case NUMERIC:
+                        System.out.println(column.getNumericCellValue());
+                        break;
+                    case STRING:
+                        System.out.println(column.getStringCellValue());
+                }
+            }
+        }
     }
 
     private void tableConfiguration(){
