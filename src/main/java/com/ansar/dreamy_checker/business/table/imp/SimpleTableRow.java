@@ -4,6 +4,7 @@ import com.ansar.dreamy_checker.business.table.TableCell;
 import com.ansar.dreamy_checker.business.table.TableRow;
 import com.ansar.dreamy_checker.business.table.exception.IrregularTableException;
 import com.ansar.dreamy_checker.business.table.exception.TableColumnNotFoundException;
+import com.ansar.dreamy_checker.business.table.exception.TableIndexOutOfBoundException;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
@@ -32,5 +33,12 @@ public class SimpleTableRow implements TableRow {
     public TableCell getCell(String columnName) throws TableColumnNotFoundException {
         return excelCells.stream().filter(excelCell -> excelCell.getColumnName().equals(columnName))
                 .findFirst().orElseThrow(TableColumnNotFoundException::new);
+    }
+
+    @Override
+    public TableCell getCell(int column) throws TableIndexOutOfBoundException {
+        if (column >= excelCells.size())
+            throw new TableIndexOutOfBoundException();
+        return this.excelCells.get(column);
     }
 }

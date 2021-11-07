@@ -2,14 +2,24 @@ package com.ansar.dreamy_checker.business.table;
 
 import com.ansar.dreamy_checker.business.table.exception.IrregularTableException;
 import com.ansar.dreamy_checker.business.table.exception.TableColumnNotFoundException;
+import com.ansar.dreamy_checker.business.table.exception.TableIndexOutOfBoundException;
 import com.ansar.dreamy_checker.business.table.imp.SimpleTable;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
+
+@Slf4j
 class ExcelTableTest {
+
+    private static final String EXCEL_FILE = "testing_excel.xlsx";
 
     @Test
     void testExcelTable() throws IrregularTableException, TableColumnNotFoundException {
@@ -24,4 +34,27 @@ class ExcelTableTest {
         assertEquals("789", rows.get(1).getCell("code1").getValue());
     }
 
+    @Test
+    void testReadingExcelFile() throws IOException {
+        try(InputStream inputStream =
+                    this.getClass().getClassLoader().getResourceAsStream(EXCEL_FILE)) {
+            assertNotNull(inputStream);
+
+            XSSFWorkbook xssfWorkbook = new XSSFWorkbook(inputStream);
+            XSSFSheet xssfSheet = xssfWorkbook.getSheetAt(0);
+
+            try {
+                SimpleTable simpleTable = new SimpleTable(xssfSheet.rowIterator());
+                assertEquals( "456412.0" ,simpleTable.getCell(0, 0).getValue());
+                assertEquals("ماست", simpleTable.getCell(2, 2).getValue());
+                simpleTable.getCell(50, 100);
+                fail();
+            } catch (IrregularTableException e) {
+                e.printStackTrace();
+                fail();
+            } catch (TableIndexOutOfBoundException e){
+                log.info(e.toString());
+            }
+        }
+    }
 }
