@@ -1,5 +1,6 @@
 package com.ansar.dreamy_checker.business.table;
 
+import com.ansar.dreamy_checker.business.table.excel.ExcelTable;
 import com.ansar.dreamy_checker.business.table.exception.IrregularTableException;
 import com.ansar.dreamy_checker.business.table.exception.TableColumnNotFoundException;
 import com.ansar.dreamy_checker.business.table.exception.TableIndexOutOfBoundException;
@@ -44,7 +45,8 @@ class ExcelTableTest {
             XSSFSheet xssfSheet = xssfWorkbook.getSheetAt(0);
 
             try {
-                SimpleTable simpleTable = new SimpleTable(xssfSheet.rowIterator());
+                ExcelTable simpleTable = new ExcelTable(xssfSheet.rowIterator());
+                log.info("\n" + simpleTable);
                 assertEquals( "456412.0" ,simpleTable.getCell(0, 0).getValue());
                 assertEquals("ماست", simpleTable.getCell(2, 2).getValue());
                 simpleTable.getCell(50, 100);

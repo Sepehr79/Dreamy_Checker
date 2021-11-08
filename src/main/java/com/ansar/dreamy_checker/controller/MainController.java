@@ -1,7 +1,7 @@
 package com.ansar.dreamy_checker.controller;
 
+import com.ansar.dreamy_checker.business.table.excel.ExcelTable;
 import com.ansar.dreamy_checker.business.table.exception.IrregularTableException;
-import com.ansar.dreamy_checker.business.table.imp.SimpleTable;
 import com.ansar.dreamy_checker.model.pojo.Product;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
@@ -57,7 +57,9 @@ public class MainController implements Initializable {
             XSSFWorkbook xssfWorkbook = new XSSFWorkbook(inputStream);
             XSSFSheet xssfSheet = xssfWorkbook.getSheetAt(0);
 
-            SimpleTable simpleTable = new SimpleTable(xssfSheet.rowIterator());
+            ExcelTable excelTable = new ExcelTable(xssfSheet.iterator());
+
+            System.out.println(excelTable);
         }
     }
 
