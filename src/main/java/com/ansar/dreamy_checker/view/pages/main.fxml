@@ -20,10 +20,10 @@
                   <TableView fx:id="kalaTable" layoutX="282.0" layoutY="116.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <columns>
                         <TableColumn fx:id="isSelected" prefWidth="75.0" text="انتخاب" />
-                      <TableColumn fx:id="kalaAnbarColumn" prefWidth="75.0" text="انبار" />
-                      <TableColumn fx:id="kalaPriceColumn" prefWidth="75.0" text="قیمت" />
-                        <TableColumn fx:id="kalaNameColumn" prefWidth="75.0" text="نام کالا" />
+                        <TableColumn fx:id="kalaSecondIdColumn" prefWidth="75.0" text="کد دوم کالا" />
                         <TableColumn fx:id="kalaIdColumn" prefWidth="75.0" text="کد کالا" />
+                        <TableColumn fx:id="kalaNameColumn" prefWidth="75.0" text="نام کالا" />
+
                     </columns>
                      <columnResizePolicy>
                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

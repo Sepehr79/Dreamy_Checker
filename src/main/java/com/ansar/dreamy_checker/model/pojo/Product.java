@@ -3,14 +3,12 @@ package com.ansar.dreamy_checker.model.pojo;
 import lombok.*;
 
 @Data
-@AllArgsConstructor
-@EqualsAndHashCode(of = "id")
+@EqualsAndHashCode(of = {"id"})
 @RequiredArgsConstructor
 public class Product {
 
-    private @NonNull String id;
-    private String name;
-    private String price;
-    private String anbarId;
+    private final String name;
+    private final String id;
+    private final String secondId;
 
 }

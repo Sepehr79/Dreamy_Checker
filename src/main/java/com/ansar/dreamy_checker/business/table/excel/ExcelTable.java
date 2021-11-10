@@ -7,6 +7,7 @@ import com.ansar.dreamy_checker.business.table.imp.SimpleTable;
 import com.ansar.dreamy_checker.business.table.imp.SimpleTableCell;
 import com.ansar.dreamy_checker.business.table.imp.SimpleTableRow;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.Row;
 
 import java.util.Arrays;
@@ -16,6 +17,8 @@ import java.util.List;
 
 public class ExcelTable extends SimpleTable {
 
+    private static final DataFormatter DATE_FORMAT = new DataFormatter();
+    
     /**
      * Creating a full table from excel row iterator
      */
@@ -34,16 +37,8 @@ public class ExcelTable extends SimpleTable {
         List<String> columnsList = new LinkedList<>();
         while (cellIterator.hasNext()){
             Cell cell = cellIterator.next();
-            switch (cell.getCellType()){
-                case STRING:
-                    columnsList.add(cell.getStringCellValue());
-                    break;
-                case NUMERIC:
-                    columnsList.add(String.valueOf(cell.getNumericCellValue()));
-                    break;
-                default:
-                    columnsList.add("");
-            }
+            String value = DATE_FORMAT.formatCellValue(cell);
+            columnsList.add(value);
         }
         return columnsList;
     }
