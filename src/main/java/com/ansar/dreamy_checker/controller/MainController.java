@@ -1,15 +1,14 @@
 package com.ansar.dreamy_checker.controller;
 
-import com.ansar.dreamy_checker.business.table.TableCell;
-import com.ansar.dreamy_checker.business.table.TableRow;
+import com.ansar.dreamy_checker.business.extractor.ExcelProductExtractor;
 import com.ansar.dreamy_checker.business.table.excel.ExcelTable;
 import com.ansar.dreamy_checker.business.table.exception.IrregularTableException;
 import com.ansar.dreamy_checker.business.table.exception.TableColumnNotFoundException;
 import com.ansar.dreamy_checker.model.pojo.Product;
+import com.ansar.dreamy_checker.model.pojo.UniqueProductProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
@@ -20,6 +19,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -29,23 +29,24 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
 
 @Component
+@RequiredArgsConstructor
 @Slf4j
 public class MainController implements Initializable {
-
-
-    private @FXML TextField kalaCodeTextField;
 
     private @FXML TableView<Product> kalaTable;
     private @FXML TableColumn<Product, String> kalaSecondIdColumn;
     private @FXML TableColumn<Product, String> kalaNameColumn;
+    private @FXML TextField kalaCodeTextField;
     private @FXML TableColumn<Product, String> kalaIdColumn;
     private @FXML TableColumn<Product, Boolean> isSelected;
 
-    private static final ObservableList<Product> INPUT_PRODUCTS = FXCollections.observableArrayList();
+    private final ExcelProductExtractor excelProductExtractor;
+
+    private static final ObservableList<UniqueProductProperty> INPUT_PRODUCTS = FXCollections.observableArrayList();
+
     private static final FileChooser FILE_CHOOSER = new FileChooser();
 
     @Override
@@ -55,7 +56,7 @@ public class MainController implements Initializable {
         inputTextFieldConfiguration();
     }
 
-    public void selectFile(ActionEvent actionEvent) throws IOException, IrregularTableException, TableColumnNotFoundException {
+    public void selectFile() throws IOException, IrregularTableException, TableColumnNotFoundException {
 
         File file = FILE_CHOOSER.showOpenDialog(new Stage());
         if (file == null){
@@ -69,20 +70,7 @@ public class MainController implements Initializable {
 
             ExcelTable excelTable = new ExcelTable(xssfSheet.iterator());
 
-            List<TableRow> tableRows = excelTable.getTableRows();
-
-            for (TableRow tableRow: tableRows){
-                TableCell nameCell = tableRow.getCell("نام");
-                TableCell barcodeCell = tableRow.getCell("بارکد");
-                TableCell secondBarcodeCell = tableRow.getCell("بارکد دوم");
-
-                Product product = new Product((String) nameCell.getValue(),
-                        (String) barcodeCell.getValue(),
-                        (String) secondBarcodeCell.getValue());
-
-                kalaTable.getItems().add(product);
-            }
-
+            kalaTable.getItems().addAll(excelProductExtractor.extractProducts(excelTable));
         }
     }
 
@@ -93,14 +81,15 @@ public class MainController implements Initializable {
         kalaSecondIdColumn.setCellValueFactory(new PropertyValueFactory<>("secondId"));
 
         isSelected.setCellFactory(param -> new CheckBoxTableCell<>());
-        isSelected.setCellValueFactory(param -> new SimpleBooleanProperty(INPUT_PRODUCTS.contains(param.getValue())));
+        isSelected.setCellValueFactory(param -> new SimpleBooleanProperty(INPUT_PRODUCTS.contains(
+                new UniqueProductProperty(param.getValue().getId(), "")))
+        );
     }
 
     private void inputTextFieldConfiguration(){
         kalaCodeTextField.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER && !kalaCodeTextField.getText().equals("")){
-                Product product = new Product("" ,kalaCodeTextField.getText(), "");
-                INPUT_PRODUCTS.add(product);
+                INPUT_PRODUCTS.add(new UniqueProductProperty(kalaCodeTextField.getText(), ""));
                 kalaTable.refresh();
                 kalaCodeTextField.clear();
             }
