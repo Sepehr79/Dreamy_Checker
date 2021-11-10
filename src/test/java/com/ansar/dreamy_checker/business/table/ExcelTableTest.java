@@ -47,7 +47,7 @@ class ExcelTableTest {
             try {
                 ExcelTable simpleTable = new ExcelTable(xssfSheet.rowIterator());
                 log.info("\n" + simpleTable);
-                assertEquals( "456412.0" ,simpleTable.getCell(0, 0).getValue());
+                assertEquals( "456412" ,simpleTable.getCell(0, 0).getValue());
                 assertEquals("ماست", simpleTable.getCell(2, 2).getValue());
                 simpleTable.getCell(50, 100);
                 fail();
