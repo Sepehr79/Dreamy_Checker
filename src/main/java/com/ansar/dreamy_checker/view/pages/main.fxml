@@ -2,7 +2,7 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<AnchorPane prefHeight="538.0" prefWidth="765.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ansar.dreamy_checker.controller.MainController">
+<AnchorPane prefHeight="538.0" prefWidth="765.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ansar.dreamy_checker.controller.MainController">
    <children>
       <SplitPane dividerPositions="0.5" layoutX="220.0" layoutY="100.0" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" style="-fx-font-family: 'B Yekan'; -fx-font-size: 18px" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>
@@ -11,7 +11,7 @@
                   <ToolBar layoutX="203.0" layoutY="-6.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <items>
                       <Button mnemonicParsing="false" onAction="#selectFile" text="انتخاب فایل" />
-                        <TextField fx:id="kalaCodeTextField" alignment="CENTER" promptText="کد کالا" />
+                        <TextField fx:id="kalaCodeTextField" alignment="CENTER" prefHeight="36.0" prefWidth="430.0" promptText="کد کالا" />
                     </items>
                   </ToolBar>
                </children></AnchorPane>
@@ -19,11 +19,10 @@
                <children>
                   <TableView fx:id="kalaTable" layoutX="282.0" layoutY="116.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <columns>
-                        <TableColumn fx:id="isSelected" prefWidth="75.0" text="انتخاب" />
-                        <TableColumn fx:id="kalaSecondIdColumn" prefWidth="75.0" text="کد دوم کالا" />
-                        <TableColumn fx:id="kalaIdColumn" prefWidth="75.0" text="کد کالا" />
-                        <TableColumn fx:id="kalaNameColumn" prefWidth="75.0" text="نام کالا" />
-
+                        <TableColumn fx:id="isSelected" maxWidth="75.0" minWidth="75.0" prefWidth="75.0" style="-fx-alignment: CENTER" text="انتخاب" />
+                        <TableColumn fx:id="kalaSecondIdColumn" prefWidth="75.0" style="-fx-alignment: CENTER" text="کد دوم کالا" />
+                        <TableColumn fx:id="kalaIdColumn" prefWidth="75.0" style="-fx-alignment: CENTER" text="کد کالا" />
+                        <TableColumn fx:id="kalaNameColumn" prefWidth="75.0" style="-fx-alignment: CENTER" text="نام کالا" />
                     </columns>
                      <columnResizePolicy>
                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

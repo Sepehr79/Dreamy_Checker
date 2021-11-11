@@ -6,11 +6,13 @@ import com.ansar.dreamy_checker.business.table.exception.IrregularTableException
 import com.ansar.dreamy_checker.business.table.exception.TableColumnNotFoundException;
 import com.ansar.dreamy_checker.model.pojo.Product;
 import com.ansar.dreamy_checker.model.pojo.UniqueProductProperty;
+import com.ansar.dreamy_checker.view.components.DialogViewer;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -45,6 +47,8 @@ public class MainController implements Initializable {
 
     private final ExcelProductExtractor excelProductExtractor;
 
+    private final DialogViewer dialogViewer;
+
     private static final ObservableList<UniqueProductProperty> INPUT_PRODUCTS = FXCollections.observableArrayList();
 
     private static final FileChooser FILE_CHOOSER = new FileChooser();
@@ -56,7 +60,7 @@ public class MainController implements Initializable {
         inputTextFieldConfiguration();
     }
 
-    public void selectFile() throws IOException, IrregularTableException, TableColumnNotFoundException {
+    public void selectFile() throws IOException, TableColumnNotFoundException {
 
         File file = FILE_CHOOSER.showOpenDialog(new Stage());
         if (file == null){
@@ -69,6 +73,8 @@ public class MainController implements Initializable {
             XSSFSheet xssfSheet = xssfWorkbook.getSheetAt(0);
             ExcelTable excelTable = new ExcelTable(xssfSheet);
             kalaTable.getItems().addAll(excelProductExtractor.extractProducts(excelTable));
+        }catch (IrregularTableException irregularTableException){
+            dialogViewer.showDialog("خطا", "امکان خواندن جدول وجود ندارد", Alert.AlertType.ERROR);
         }
     }
 

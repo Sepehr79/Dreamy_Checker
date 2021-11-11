@@ -6,17 +6,23 @@ import com.ansar.dreamy_checker.business.table.exception.IrregularTableException
 import com.ansar.dreamy_checker.business.table.imp.SimpleTable;
 import com.ansar.dreamy_checker.business.table.imp.SimpleTableCell;
 import com.ansar.dreamy_checker.business.table.imp.SimpleTableRow;
+import lombok.EqualsAndHashCode;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+@Slf4j
+@EqualsAndHashCode(callSuper = false)
 public class ExcelTable extends SimpleTable {
+
+    private final int startingColumn;
+    private final int startingRow;
 
     private static final DataFormatter DATE_FORMAT = new DataFormatter();
     
@@ -24,25 +30,16 @@ public class ExcelTable extends SimpleTable {
      * Creating a full table from excel row iterator
      */
     public ExcelTable(XSSFSheet xssfSheet) throws IrregularTableException {
-        super(getCellList(xssfSheet.iterator().next()).stream().distinct().toArray(String[]::new));
+        Row firstRow = xssfSheet.getRow(xssfSheet.getFirstRowNum());
+        this.startingRow = xssfSheet.getFirstRowNum();
+        this.startingColumn = firstRow.getFirstCellNum();
 
-        Iterator<Row> rowIterator = xssfSheet.iterator();
-        rowIterator.next();
-        while (rowIterator.hasNext()){
-            List<String> values = getCellList(rowIterator.next());
+        setColumns(getCellList(firstRow).stream().distinct().toArray(String[]::new));
+
+        for (int i = startingRow + 1; i < xssfSheet.getLastRowNum(); i++){
+            List<String> values = getCellList(xssfSheet.getRow(i));
             add(values.toArray());
         }
-    }
-
-    private static List<String> getCellList(Row row){
-        Iterator<Cell> cellIterator = row.cellIterator();
-        List<String> columnsList = new LinkedList<>();
-        while (cellIterator.hasNext()){
-            Cell cell = cellIterator.next();
-            String value = DATE_FORMAT.formatCellValue(cell);
-            columnsList.add(value);
-        }
-        return columnsList;
     }
 
     @Override
@@ -61,5 +58,16 @@ public class ExcelTable extends SimpleTable {
             stringBuilder.append("\n");
         }
         return stringBuilder.toString();
+    }
+
+    private List<String> getCellList(Row row){
+        List<String> columnsList = new LinkedList<>();
+        for (int i = startingColumn; i < row.getLastCellNum(); i++){
+            Cell cell = row.getCell(i);
+            String value = DATE_FORMAT.formatCellValue(cell);
+            log.info("Cell: {}", value);
+            columnsList.add(value);
+        }
+        return columnsList;
     }
 }

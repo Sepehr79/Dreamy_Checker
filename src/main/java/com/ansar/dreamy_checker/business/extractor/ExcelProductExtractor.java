@@ -18,9 +18,9 @@ public class ExcelProductExtractor {
         List<TableRow> tableRows = excelTable.getTableRows();
 
         for (TableRow tableRow: tableRows){
-            TableCell nameCell = tableRow.getCell("نام");
-            TableCell barcodeCell = tableRow.getCell("بارکد");
-            TableCell secondBarcodeCell = tableRow.getCell("بارکد دوم");
+            TableCell nameCell = tableRow.getCell("نام کالا");
+            TableCell barcodeCell = tableRow.getCell("barcode");
+            TableCell secondBarcodeCell = tableRow.getCell("بارکد اصلاح شده");
 
             Product product = new Product((String) nameCell.getValue(),
                     (String) barcodeCell.getValue(),

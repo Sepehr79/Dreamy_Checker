@@ -6,18 +6,22 @@ import com.ansar.dreamy_checker.business.table.TableRow;
 import com.ansar.dreamy_checker.business.table.exception.IrregularTableException;
 import com.ansar.dreamy_checker.business.table.exception.TableIndexOutOfBoundException;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @Data
+@NoArgsConstructor
 public class SimpleTable implements Table {
 
-    private final String[] columns;
+    private String[] columns;
 
     private final List<TableRow> tableRows = new ArrayList<>();
 
-    public SimpleTable(String ...names) {
-        columns = Arrays.stream(names).distinct().toArray(String[]::new);
+    public SimpleTable(String ...columns) {
+        this.columns = Arrays.stream(columns).distinct().toArray(String[]::new);
     }
 
     @Override
@@ -42,6 +46,8 @@ public class SimpleTable implements Table {
         return tableRow.getCell(column);
     }
 
-
+    public void setColumns(String ...columns){
+        this.columns = Arrays.stream(columns).distinct().toArray(String[]::new);
+    }
 
 }

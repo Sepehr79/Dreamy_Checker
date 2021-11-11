@@ -1,6 +1,8 @@
 package com.ansar.dreamy_checker.model.pojo;
 
-import lombok.*;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.RequiredArgsConstructor;
 
 @Data
 @EqualsAndHashCode(of = {"id"})
