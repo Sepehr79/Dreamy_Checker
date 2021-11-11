@@ -9,6 +9,7 @@ import com.ansar.dreamy_checker.business.table.imp.SimpleTableRow;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
 
 import java.util.Arrays;
 import java.util.Iterator;
@@ -22,18 +23,19 @@ public class ExcelTable extends SimpleTable {
     /**
      * Creating a full table from excel row iterator
      */
-    public ExcelTable(Iterator<Row> rowIterator) throws IrregularTableException {
-        super(getCellList(rowIterator).stream().distinct().toArray(String[]::new));
+    public ExcelTable(XSSFSheet xssfSheet) throws IrregularTableException {
+        super(getCellList(xssfSheet.iterator().next()).stream().distinct().toArray(String[]::new));
 
+        Iterator<Row> rowIterator = xssfSheet.iterator();
+        rowIterator.next();
         while (rowIterator.hasNext()){
-            List<String> values = getCellList(rowIterator);
+            List<String> values = getCellList(rowIterator.next());
             add(values.toArray());
         }
     }
 
-    private static List<String> getCellList(Iterator<Row> rowIterator){
-        Row firstRow = rowIterator.next();
-        Iterator<Cell> cellIterator = firstRow.cellIterator();
+    private static List<String> getCellList(Row row){
+        Iterator<Cell> cellIterator = row.cellIterator();
         List<String> columnsList = new LinkedList<>();
         while (cellIterator.hasNext()){
             Cell cell = cellIterator.next();

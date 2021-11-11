@@ -45,7 +45,7 @@ class ExcelTableTest {
             XSSFSheet xssfSheet = xssfWorkbook.getSheetAt(0);
 
             try {
-                ExcelTable simpleTable = new ExcelTable(xssfSheet.rowIterator());
+                ExcelTable simpleTable = new ExcelTable(xssfSheet);
                 log.info("\n" + simpleTable);
                 assertEquals( "456412" ,simpleTable.getCell(0, 0).getValue());
                 assertEquals("ماست", simpleTable.getCell(2, 2).getValue());

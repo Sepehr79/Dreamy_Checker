@@ -67,9 +67,7 @@ public class MainController implements Initializable {
         try(FileInputStream inputStream = new FileInputStream(file)) {
             XSSFWorkbook xssfWorkbook = new XSSFWorkbook(inputStream);
             XSSFSheet xssfSheet = xssfWorkbook.getSheetAt(0);
-
-            ExcelTable excelTable = new ExcelTable(xssfSheet.iterator());
-
+            ExcelTable excelTable = new ExcelTable(xssfSheet);
             kalaTable.getItems().addAll(excelProductExtractor.extractProducts(excelTable));
         }
     }
