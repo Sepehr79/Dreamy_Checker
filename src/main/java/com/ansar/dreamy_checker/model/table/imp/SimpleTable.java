@@ -1,10 +1,10 @@
-package com.ansar.dreamy_checker.business.table.imp;
+package com.ansar.dreamy_checker.model.table.imp;
 
-import com.ansar.dreamy_checker.business.table.Table;
-import com.ansar.dreamy_checker.business.table.TableCell;
-import com.ansar.dreamy_checker.business.table.TableRow;
-import com.ansar.dreamy_checker.business.table.exception.IrregularTableException;
-import com.ansar.dreamy_checker.business.table.exception.TableIndexOutOfBoundException;
+import com.ansar.dreamy_checker.model.table.Table;
+import com.ansar.dreamy_checker.model.table.TableCell;
+import com.ansar.dreamy_checker.model.table.TableRow;
+import com.ansar.dreamy_checker.model.table.exception.IrregularTableException;
+import com.ansar.dreamy_checker.model.table.exception.TableIndexOutOfBoundException;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

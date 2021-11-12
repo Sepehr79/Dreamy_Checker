@@ -1,12 +1,12 @@
 package com.ansar.dreamy_checker.controller;
 
 import com.ansar.dreamy_checker.business.extractor.ExcelProductExtractor;
-import com.ansar.dreamy_checker.business.table.excel.ExcelTable;
-import com.ansar.dreamy_checker.business.table.exception.IrregularTableException;
-import com.ansar.dreamy_checker.business.table.exception.TableColumnNotFoundException;
+import com.ansar.dreamy_checker.model.table.excel.ExcelTable;
+import com.ansar.dreamy_checker.model.table.exception.IrregularTableException;
+import com.ansar.dreamy_checker.model.table.exception.TableColumnNotFoundException;
 import com.ansar.dreamy_checker.model.pojo.Product;
 import com.ansar.dreamy_checker.model.pojo.UniqueProductProperty;
-import com.ansar.dreamy_checker.view.components.DialogViewer;
+import com.ansar.dreamy_checker.view.DialogViewer;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -32,8 +32,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 @Component
 @RequiredArgsConstructor
@@ -54,8 +52,6 @@ public class MainController implements Initializable {
     private static final ObservableList<UniqueProductProperty> INPUT_PRODUCTS = FXCollections.observableArrayList();
 
     private static final FileChooser FILE_CHOOSER = new FileChooser();
-
-    private static final ExecutorService EXECUTOR_SERVICE = Executors.newSingleThreadExecutor();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {

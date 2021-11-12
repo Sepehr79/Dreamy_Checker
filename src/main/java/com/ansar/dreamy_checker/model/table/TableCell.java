@@ -1,4 +1,4 @@
-package com.ansar.dreamy_checker.business.table;
+package com.ansar.dreamy_checker.model.table;
 
 public interface TableCell {
 

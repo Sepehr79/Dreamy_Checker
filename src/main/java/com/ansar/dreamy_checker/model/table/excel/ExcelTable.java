@@ -1,11 +1,11 @@
-package com.ansar.dreamy_checker.business.table.excel;
+package com.ansar.dreamy_checker.model.table.excel;
 
-import com.ansar.dreamy_checker.business.table.TableCell;
-import com.ansar.dreamy_checker.business.table.TableRow;
-import com.ansar.dreamy_checker.business.table.exception.IrregularTableException;
-import com.ansar.dreamy_checker.business.table.imp.SimpleTable;
-import com.ansar.dreamy_checker.business.table.imp.SimpleTableCell;
-import com.ansar.dreamy_checker.business.table.imp.SimpleTableRow;
+import com.ansar.dreamy_checker.model.table.TableCell;
+import com.ansar.dreamy_checker.model.table.TableRow;
+import com.ansar.dreamy_checker.model.table.exception.IrregularTableException;
+import com.ansar.dreamy_checker.model.table.imp.SimpleTable;
+import com.ansar.dreamy_checker.model.table.imp.SimpleTableCell;
+import com.ansar.dreamy_checker.model.table.imp.SimpleTableRow;
 import lombok.EqualsAndHashCode;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.ss.usermodel.Cell;

@@ -1,9 +1,9 @@
 package com.ansar.dreamy_checker.business.extractor;
 
-import com.ansar.dreamy_checker.business.table.TableCell;
-import com.ansar.dreamy_checker.business.table.TableRow;
-import com.ansar.dreamy_checker.business.table.excel.ExcelTable;
-import com.ansar.dreamy_checker.business.table.exception.TableColumnNotFoundException;
+import com.ansar.dreamy_checker.model.table.TableCell;
+import com.ansar.dreamy_checker.model.table.TableRow;
+import com.ansar.dreamy_checker.model.table.excel.ExcelTable;
+import com.ansar.dreamy_checker.model.table.exception.TableColumnNotFoundException;
 import com.ansar.dreamy_checker.model.pojo.Product;
 import org.springframework.stereotype.Component;
 

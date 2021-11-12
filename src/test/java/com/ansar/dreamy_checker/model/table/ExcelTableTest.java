@@ -1,10 +1,10 @@
-package com.ansar.dreamy_checker.business.table;
+package com.ansar.dreamy_checker.model.table;
 
-import com.ansar.dreamy_checker.business.table.excel.ExcelTable;
-import com.ansar.dreamy_checker.business.table.exception.IrregularTableException;
-import com.ansar.dreamy_checker.business.table.exception.TableColumnNotFoundException;
-import com.ansar.dreamy_checker.business.table.exception.TableIndexOutOfBoundException;
-import com.ansar.dreamy_checker.business.table.imp.SimpleTable;
+import com.ansar.dreamy_checker.model.table.excel.ExcelTable;
+import com.ansar.dreamy_checker.model.table.exception.IrregularTableException;
+import com.ansar.dreamy_checker.model.table.exception.TableColumnNotFoundException;
+import com.ansar.dreamy_checker.model.table.exception.TableIndexOutOfBoundException;
+import com.ansar.dreamy_checker.model.table.imp.SimpleTable;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;

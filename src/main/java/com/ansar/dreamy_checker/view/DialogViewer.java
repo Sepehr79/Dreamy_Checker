@@ -1,4 +1,4 @@
-package com.ansar.dreamy_checker.view.components;
+package com.ansar.dreamy_checker.view;
 
 import javafx.geometry.NodeOrientation;
 import javafx.scene.control.Alert;
@@ -18,7 +18,7 @@ public class DialogViewer {
         alert.getDialogPane().setStyle("-fx-font-family: 'B Yekan';-fx-font-size: 20");
         ((Button) alert.getDialogPane().lookupButton(ButtonType.OK)).setText("تایید");
 
-        alert.showAndWait();
+        alert.show();
     }
 
 }

@@ -1,7 +1,7 @@
-package com.ansar.dreamy_checker.business.table;
+package com.ansar.dreamy_checker.model.table;
 
-import com.ansar.dreamy_checker.business.table.exception.IrregularTableException;
-import com.ansar.dreamy_checker.business.table.exception.TableIndexOutOfBoundException;
+import com.ansar.dreamy_checker.model.table.exception.IrregularTableException;
+import com.ansar.dreamy_checker.model.table.exception.TableIndexOutOfBoundException;
 
 import java.util.List;
 

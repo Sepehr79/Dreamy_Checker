@@ -1,6 +1,6 @@
-package com.ansar.dreamy_checker.business.table.imp;
+package com.ansar.dreamy_checker.model.table.imp;
 
-import com.ansar.dreamy_checker.business.table.TableCell;
+import com.ansar.dreamy_checker.model.table.TableCell;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
