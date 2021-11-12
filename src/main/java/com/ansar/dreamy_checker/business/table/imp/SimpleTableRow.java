@@ -23,8 +23,8 @@ public class SimpleTableRow implements TableRow {
 
         List<TableCell> excelCells = new ArrayList<>();
         for (int i = 0; i < inputs.length; i++){
-            TableCell excelCell = new SimpleTableCell(inputs[i], columnNames[i]);
-            excelCells.add(excelCell);
+            TableCell tableCell = new SimpleTableCell(inputs[i], columnNames[i]);
+            excelCells.add(tableCell);
         }
         return new SimpleTableRow(excelCells);
     }

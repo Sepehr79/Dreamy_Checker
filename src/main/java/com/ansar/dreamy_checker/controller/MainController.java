@@ -32,6 +32,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 @Component
 @RequiredArgsConstructor
@@ -41,9 +43,9 @@ public class MainController implements Initializable {
     private @FXML TableView<Product> kalaTable;
     private @FXML TableColumn<Product, String> kalaSecondIdColumn;
     private @FXML TableColumn<Product, String> kalaNameColumn;
-    private @FXML TextField kalaCodeTextField;
     private @FXML TableColumn<Product, String> kalaIdColumn;
     private @FXML TableColumn<Product, Boolean> isSelected;
+    private @FXML TextField kalaCodeTextField;
 
     private final ExcelProductExtractor excelProductExtractor;
 
@@ -53,6 +55,8 @@ public class MainController implements Initializable {
 
     private static final FileChooser FILE_CHOOSER = new FileChooser();
 
+    private static final ExecutorService EXECUTOR_SERVICE = Executors.newSingleThreadExecutor();
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         // Page configurations
@@ -60,7 +64,7 @@ public class MainController implements Initializable {
         inputTextFieldConfiguration();
     }
 
-    public void selectFile() throws IOException, TableColumnNotFoundException {
+    public void selectFile() {
 
         File file = FILE_CHOOSER.showOpenDialog(new Stage());
         if (file == null){
@@ -73,9 +77,14 @@ public class MainController implements Initializable {
             XSSFSheet xssfSheet = xssfWorkbook.getSheetAt(0);
             ExcelTable excelTable = new ExcelTable(xssfSheet);
             kalaTable.getItems().addAll(excelProductExtractor.extractProducts(excelTable));
+        }catch (TableColumnNotFoundException tableColumnNotFoundException) {
+            dialogViewer.showDialog("خطا", "نام ستون ها قابل شناسایی نیست", Alert.AlertType.ERROR);
         }catch (IrregularTableException irregularTableException){
             dialogViewer.showDialog("خطا", "امکان خواندن جدول وجود ندارد", Alert.AlertType.ERROR);
+        }catch (IOException e) {
+            e.printStackTrace();
         }
+
     }
 
     private void tableConfiguration(){
