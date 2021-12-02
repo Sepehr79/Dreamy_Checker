@@ -30,6 +30,7 @@ import org.springframework.stereotype.Component;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -38,11 +39,13 @@ import java.util.ResourceBundle;
 @Slf4j
 public class MainController implements Initializable {
 
+
     private @FXML TableView<Product> kalaTable;
-    private @FXML TableColumn<Product, String> kalaSecondIdColumn;
+    private @FXML TableColumn<Product, Integer> count;
     private @FXML TableColumn<Product, String> kalaNameColumn;
     private @FXML TableColumn<Product, String> kalaIdColumn;
     private @FXML TableColumn<Product, Boolean> isSelected;
+    private @FXML TableColumn<Product, String> type;
     private @FXML TextField kalaCodeTextField;
 
     private final ExcelProductExtractor excelProductExtractor;
@@ -87,7 +90,8 @@ public class MainController implements Initializable {
         // Columns
         kalaNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         kalaIdColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
-        kalaSecondIdColumn.setCellValueFactory(new PropertyValueFactory<>("secondId"));
+        type.setCellValueFactory(new PropertyValueFactory<>("type"));
+        count.setCellValueFactory(new PropertyValueFactory<>("count"));
 
         isSelected.setCellFactory(param -> new CheckBoxTableCell<>());
         isSelected.setCellValueFactory(param -> new SimpleBooleanProperty(INPUT_PRODUCTS.contains(
