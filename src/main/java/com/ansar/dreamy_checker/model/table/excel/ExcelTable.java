@@ -11,7 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.ss.usermodel.Sheet;
 
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -29,15 +29,15 @@ public class ExcelTable extends SimpleTable {
     /**
      * Creating a full table from excel row iterator
      */
-    public ExcelTable(XSSFSheet xssfSheet) throws IrregularTableException {
-        Row firstRow = xssfSheet.getRow(xssfSheet.getFirstRowNum());
-        this.startingRow = xssfSheet.getFirstRowNum();
+    public ExcelTable(Sheet sheet) throws IrregularTableException {
+        Row firstRow = sheet.getRow(sheet.getFirstRowNum());
+        this.startingRow = sheet.getFirstRowNum();
         this.startingColumn = firstRow.getFirstCellNum();
 
         setColumns(getCellList(firstRow).stream().distinct().toArray(String[]::new));
 
-        for (int i = startingRow + 1; i < xssfSheet.getLastRowNum(); i++){
-            List<String> values = getCellList(xssfSheet.getRow(i));
+        for (int i = startingRow + 1; i < sheet.getLastRowNum(); i++){
+            List<String> values = getCellList(sheet.getRow(i));
             add(values.toArray());
         }
     }

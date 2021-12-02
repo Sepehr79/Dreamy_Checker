@@ -1,11 +1,12 @@
 package com.ansar.dreamy_checker.controller;
 
 import com.ansar.dreamy_checker.business.extractor.ExcelProductExtractor;
+import com.ansar.dreamy_checker.business.extractor.ExcelWorkbookExtractor;
+import com.ansar.dreamy_checker.model.pojo.Product;
+import com.ansar.dreamy_checker.model.pojo.UniqueProductProperty;
 import com.ansar.dreamy_checker.model.table.excel.ExcelTable;
 import com.ansar.dreamy_checker.model.table.exception.IrregularTableException;
 import com.ansar.dreamy_checker.model.table.exception.TableColumnNotFoundException;
-import com.ansar.dreamy_checker.model.pojo.Product;
-import com.ansar.dreamy_checker.model.pojo.UniqueProductProperty;
 import com.ansar.dreamy_checker.view.DialogViewer;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
@@ -23,14 +24,13 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -49,6 +49,8 @@ public class MainController implements Initializable {
     private @FXML TextField kalaCodeTextField;
 
     private final ExcelProductExtractor excelProductExtractor;
+
+    private final ExcelWorkbookExtractor excelWorkbookExtractor;
 
     private final DialogViewer dialogViewer;
 
@@ -72,14 +74,16 @@ public class MainController implements Initializable {
         }
 
         try(FileInputStream inputStream = new FileInputStream(file)) {
-            XSSFWorkbook xssfWorkbook = new XSSFWorkbook(inputStream);
-            XSSFSheet xssfSheet = xssfWorkbook.getSheetAt(0);
-            ExcelTable excelTable = new ExcelTable(xssfSheet);
+            Workbook workbook = excelWorkbookExtractor.extractWorkbook(inputStream, file);
+            Sheet sheet = workbook.getSheetAt(0);
+            ExcelTable excelTable = new ExcelTable(sheet);
             kalaTable.getItems().addAll(excelProductExtractor.extractProducts(excelTable));
         }catch (TableColumnNotFoundException tableColumnNotFoundException) {
             dialogViewer.showDialog("خطا", "نام ستون ها قابل شناسایی نیست", Alert.AlertType.ERROR);
+            tableColumnNotFoundException.printStackTrace();
         }catch (IrregularTableException irregularTableException){
             dialogViewer.showDialog("خطا", "امکان خواندن جدول وجود ندارد", Alert.AlertType.ERROR);
+            irregularTableException.printStackTrace();
         }catch (IOException e) {
             e.printStackTrace();
         }
