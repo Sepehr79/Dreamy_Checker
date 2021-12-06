@@ -7,6 +7,7 @@ import com.ansar.dreamy_checker.model.pojo.UniqueProductProperty;
 import com.ansar.dreamy_checker.model.table.excel.ExcelTable;
 import com.ansar.dreamy_checker.model.table.exception.IrregularTableException;
 import com.ansar.dreamy_checker.model.table.exception.TableColumnNotFoundException;
+import com.ansar.dreamy_checker.view.ButtonCell;
 import com.ansar.dreamy_checker.view.DialogViewer;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
@@ -19,6 +20,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.KeyCode;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -40,12 +42,15 @@ import java.util.ResourceBundle;
 public class MainController implements Initializable {
 
 
+
     private @FXML TableView<Product> kalaTable;
-    private @FXML TableColumn<Product, Integer> count;
     private @FXML TableColumn<Product, String> kalaNameColumn;
     private @FXML TableColumn<Product, String> kalaIdColumn;
-    private @FXML TableColumn<Product, Boolean> isSelected;
     private @FXML TableColumn<Product, String> type;
+    private @FXML TableColumn<Product, String> count;
+    private @FXML TableColumn<Product, Boolean> isSelected;
+    private @FXML TableColumn<Product, Boolean> delete;
+
     private @FXML TextField kalaCodeTextField;
 
     private final ExcelProductExtractor excelProductExtractor;
@@ -95,7 +100,17 @@ public class MainController implements Initializable {
         kalaNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         kalaIdColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
         type.setCellValueFactory(new PropertyValueFactory<>("type"));
+
+        delete.setCellValueFactory(p -> new SimpleBooleanProperty(p.getValue() != null));
+        delete.setCellFactory(p -> new ButtonCell<>(kalaTable));
+        delete.setSortable(false);
+
         count.setCellValueFactory(new PropertyValueFactory<>("count"));
+        count.setCellFactory(TextFieldTableCell.forTableColumn());
+        count.setOnEditCommit(event -> {
+            event.getRowValue().setCount(event.getNewValue());
+            event.getTableView().refresh();
+        });
 
         isSelected.setCellFactory(param -> new CheckBoxTableCell<>());
         isSelected.setCellValueFactory(param -> new SimpleBooleanProperty(INPUT_PRODUCTS.contains(

@@ -8,10 +8,7 @@ import com.ansar.dreamy_checker.model.table.imp.SimpleTableCell;
 import com.ansar.dreamy_checker.model.table.imp.SimpleTableRow;
 import lombok.EqualsAndHashCode;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.DataFormatter;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.*;
 
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -64,6 +61,7 @@ public class ExcelTable extends SimpleTable {
         List<String> columnsList = new LinkedList<>();
         for (int i = startingColumn; i < row.getLastCellNum(); i++){
             Cell cell = row.getCell(i);
+            cell.setCellType(CellType.STRING);
             String value = DATE_FORMAT.formatCellValue(cell);
             log.info("Cell: {}", value);
             columnsList.add(value);

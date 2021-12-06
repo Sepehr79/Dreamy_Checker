@@ -17,8 +17,9 @@
                </children></AnchorPane>
           <AnchorPane minHeight="500.0" minWidth="0.0">
                <children>
-                  <TableView fx:id="kalaTable" layoutX="282.0" layoutY="116.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <TableView fx:id="kalaTable" editable="true" layoutX="282.0" layoutY="116.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <columns>
+                        <TableColumn fx:id="delete" maxWidth="75.0" minWidth="75.0" prefWidth="75.0" style="-fx-alignment: CENTER" text="حذف" />
                         <TableColumn fx:id="isSelected" maxWidth="75.0" minWidth="75.0" prefWidth="75.0" style="-fx-alignment: CENTER" text="انتخاب" />
                         <TableColumn fx:id="type" prefWidth="75.0" style="-fx-alignment: CENTER" text="واحد دوم" />
                         <TableColumn fx:id="count" prefWidth="75.0" style="-fx-alignment: CENTER" text="شارژ واحد دوم" />
