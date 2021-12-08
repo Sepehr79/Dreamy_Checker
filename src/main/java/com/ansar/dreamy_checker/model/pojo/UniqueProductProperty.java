@@ -10,6 +10,5 @@ import lombok.RequiredArgsConstructor;
 public class UniqueProductProperty {
 
     private final String id;
-    private final String secondId;
 
 }
