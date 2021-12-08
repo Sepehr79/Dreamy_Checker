@@ -2,6 +2,7 @@ package com.ansar.dreamy_checker.controller;
 
 import com.ansar.dreamy_checker.business.extractor.ExcelProductExtractor;
 import com.ansar.dreamy_checker.business.extractor.ExcelWorkbookExtractor;
+import com.ansar.dreamy_checker.database.query_executer.FirstIdExtractor;
 import com.ansar.dreamy_checker.model.pojo.Product;
 import com.ansar.dreamy_checker.model.pojo.UniqueProductProperty;
 import com.ansar.dreamy_checker.model.table.excel.ExcelTable;
@@ -35,6 +36,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
@@ -53,13 +55,15 @@ public class MainController implements Initializable {
 
     private @FXML TextField kalaCodeTextField;
 
+    private final FirstIdExtractor firstIdExtractor;
+
     private final ExcelProductExtractor excelProductExtractor;
 
     private final ExcelWorkbookExtractor excelWorkbookExtractor;
 
     private final DialogViewer dialogViewer;
 
-    private static final ObservableList<UniqueProductProperty> INPUT_PRODUCTS = FXCollections.observableArrayList();
+    private static final ObservableList<UniqueProductProperty> PRODUCT_ID_REPOSITORY = FXCollections.observableArrayList();
 
     private static final FileChooser FILE_CHOOSER = new FileChooser();
 
@@ -113,18 +117,32 @@ public class MainController implements Initializable {
         });
 
         isSelected.setCellFactory(param -> new CheckBoxTableCell<>());
-        isSelected.setCellValueFactory(param -> new SimpleBooleanProperty(INPUT_PRODUCTS.contains(
-                new UniqueProductProperty(param.getValue().getId(), "")))
+        isSelected.setCellValueFactory(param -> new SimpleBooleanProperty(
+                PRODUCT_ID_REPOSITORY.contains(
+                        new UniqueProductProperty(param.getValue().getId())
+                ))
         );
     }
 
     private void inputTextFieldConfiguration(){
         kalaCodeTextField.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER && !kalaCodeTextField.getText().equals("")){
-                INPUT_PRODUCTS.add(new UniqueProductProperty(kalaCodeTextField.getText(), ""));
+                String id = kalaCodeTextField.getText().trim();
+                String queryId = firstIdExtractor.extractFirstId(id);
+                if (tableContainsId(id)){
+                    log.info("Kala found on table: {}", id);
+                    PRODUCT_ID_REPOSITORY.add(new UniqueProductProperty(id));
+                } else if (tableContainsId(queryId)){
+                    log.info("Kala found on database: {}", queryId);
+                    PRODUCT_ID_REPOSITORY.add(new UniqueProductProperty(queryId));
+                }
                 kalaTable.refresh();
                 kalaCodeTextField.clear();
             }
         });
+    }
+
+    private boolean tableContainsId(String id){
+        return kalaTable.getItems().stream().map(Product::getId).collect(Collectors.toList()).contains(id);
     }
 }
