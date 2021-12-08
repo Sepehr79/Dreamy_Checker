@@ -2,4 +2,3 @@ target
 .idea
 # Security
 src/main/resources/application.properties
-pictures

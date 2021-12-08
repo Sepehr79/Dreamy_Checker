@@ -2,4 +2,4 @@
 
 Simple software for managing products that works with MS Excel
 
-![Image](pictures/applcation.png)
+![Image](pictures/application.png)
