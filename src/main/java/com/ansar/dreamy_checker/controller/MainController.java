@@ -74,6 +74,9 @@ public class MainController implements Initializable {
         inputTextFieldConfiguration();
     }
 
+    /**
+     * When user clicks on select file button
+     */
     public void selectFile() {
 
         File file = FILE_CHOOSER.showOpenDialog(new Stage());
@@ -99,6 +102,9 @@ public class MainController implements Initializable {
 
     }
 
+    /**
+     * When user clicks on create Excel file button
+     */
     public void createExcel() {
     }
 
