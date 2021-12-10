@@ -128,13 +128,15 @@ public class MainController implements Initializable {
         kalaCodeTextField.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER && !kalaCodeTextField.getText().equals("")){
                 String id = kalaCodeTextField.getText().trim();
-                String queryId = firstIdExtractor.extractFirstId(id);
+                String queryId;
                 if (tableContainsId(id)){
                     log.info("Kala found on table: {}", id);
                     PRODUCT_ID_REPOSITORY.add(new UniqueProductProperty(id));
-                } else if (tableContainsId(queryId)){
+                } else if ((queryId = firstIdExtractor.extractFirstId(id)) != null){
                     log.info("Kala found on database: {}", queryId);
                     PRODUCT_ID_REPOSITORY.add(new UniqueProductProperty(queryId));
+                } else {
+                    dialogViewer.showDialog("خطا", "کالا یافت نشد", Alert.AlertType.ERROR);
                 }
                 kalaTable.refresh();
                 kalaCodeTextField.clear();
