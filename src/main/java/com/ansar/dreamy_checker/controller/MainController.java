@@ -74,6 +74,9 @@ public class MainController implements Initializable {
         inputTextFieldConfiguration();
     }
 
+    /**
+     * When user clicks on select file button
+     */
     public void selectFile() {
 
         File file = FILE_CHOOSER.showOpenDialog(new Stage());
@@ -97,6 +100,12 @@ public class MainController implements Initializable {
             e.printStackTrace();
         }
 
+    }
+
+    /**
+     * When user clicks on create Excel file button
+     */
+    public void createExcel() {
     }
 
     private void tableConfiguration(){
@@ -128,13 +137,15 @@ public class MainController implements Initializable {
         kalaCodeTextField.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER && !kalaCodeTextField.getText().equals("")){
                 String id = kalaCodeTextField.getText().trim();
-                String queryId = firstIdExtractor.extractFirstId(id);
+                String queryId;
                 if (tableContainsId(id)){
                     log.info("Kala found on table: {}", id);
                     PRODUCT_ID_REPOSITORY.add(new UniqueProductProperty(id));
-                } else if (tableContainsId(queryId)){
+                } else if ((queryId = firstIdExtractor.extractFirstId(id)) != null){
                     log.info("Kala found on database: {}", queryId);
                     PRODUCT_ID_REPOSITORY.add(new UniqueProductProperty(queryId));
+                } else {
+                    dialogViewer.showDialog("خطا", "کالا یافت نشد", Alert.AlertType.ERROR);
                 }
                 kalaTable.refresh();
                 kalaCodeTextField.clear();
@@ -145,4 +156,6 @@ public class MainController implements Initializable {
     private boolean tableContainsId(String id){
         return kalaTable.getItems().stream().map(Product::getId).collect(Collectors.toList()).contains(id);
     }
+
+
 }
