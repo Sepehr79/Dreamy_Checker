@@ -99,6 +99,9 @@ public class MainController implements Initializable {
 
     }
 
+    public void createExcel() {
+    }
+
     private void tableConfiguration(){
         // Columns
         kalaNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -147,4 +150,6 @@ public class MainController implements Initializable {
     private boolean tableContainsId(String id){
         return kalaTable.getItems().stream().map(Product::getId).collect(Collectors.toList()).contains(id);
     }
+
+
 }

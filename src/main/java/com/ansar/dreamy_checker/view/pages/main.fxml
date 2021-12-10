@@ -11,6 +11,7 @@
                   <ToolBar layoutX="203.0" layoutY="-6.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <items>
                       <Button mnemonicParsing="false" onAction="#selectFile" text="انتخاب فایل" />
+                        <Button mnemonicParsing="false" onAction="#createExcel" text="خروجی اکسل" />
                         <TextField fx:id="kalaCodeTextField" alignment="CENTER" prefHeight="36.0" prefWidth="430.0" promptText="کد کالا" />
                     </items>
                   </ToolBar>
