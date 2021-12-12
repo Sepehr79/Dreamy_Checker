@@ -5,7 +5,6 @@ import com.ansar.dreamy_checker.business.extractor.ExcelWorkbookMode;
 import com.ansar.dreamy_checker.model.pojo.Product;
 import javafx.collections.ObservableList;
 import lombok.RequiredArgsConstructor;
-import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -35,29 +34,14 @@ public class ProductExcelCreator {
         try (OutputStream outputStream = new FileOutputStream(file)){
             workbook = excelWorkbookExtractor.extractWorkbook(file, ExcelWorkbookMode.WRITE);
             Sheet sheet = workbook.createSheet("products");
-
-            Row columns = sheet.createRow(0);
-            Cell nameCell = columns.createCell(0);
-            nameCell.setCellValue(KALA_NAME);
-            Cell barcodeCell = columns.createCell(1);
-            barcodeCell.setCellValue(KALA_ID);
-            Cell countCell = columns.createCell(2);
-            countCell.setCellValue(KALA_COUNT);
-            Cell typeCell = columns.createCell(3);
-            typeCell.setCellValue(KALA_TYPE);
-
-            IntStream.range(1, products.size()).forEach(i -> {
-                Row values = sheet.createRow(i);
-
-                Cell name = values.createCell(0);
-                name.setCellValue(products.get(i).getName());
-                Cell barcode = values.createCell(1);
-                barcode.setCellValue(products.get(i).getId());
-                Cell count = values.createCell(2);
-                count.setCellValue(products.get(i).getCount());
-                Cell type = values.createCell(3);
-                type.setCellValue(products.get(i).getType());
-            });
+            setRowValues(0, sheet, KALA_NAME, KALA_ID, KALA_COUNT, KALA_TYPE);
+            IntStream.range(0, products.size()).forEach(i -> setRowValues(
+                    i + 1, sheet,
+                    products.get(i).getName(),
+                    products.get(i).getId(),
+                    products.get(i).getCount(),
+                    products.get(i).getType()
+            ));
 
             workbook.write(outputStream);
         } catch (IOException e) {
@@ -66,7 +50,14 @@ public class ProductExcelCreator {
             assert workbook != null;
             workbook.close();
         }
+    }
 
+    private void setRowValues(int index, Sheet sheet, String nameCell, String idCell, String countCell, String typeCell){
+        Row columns = sheet.createRow(index);
+        columns.createCell(0).setCellValue(nameCell);
+        columns.createCell(1).setCellValue(idCell);
+        columns.createCell(2).setCellValue(countCell);
+        columns.createCell(3).setCellValue(typeCell);
     }
 
 }
