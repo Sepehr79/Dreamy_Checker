@@ -33,7 +33,7 @@ public class ExcelTable extends SimpleTable {
 
         setColumns(getCellList(firstRow).stream().distinct().toArray(String[]::new));
 
-        for (int i = startingRow + 1; i < sheet.getLastRowNum(); i++){
+        for (int i = startingRow + 1; i <= sheet.getLastRowNum(); i++){
             List<String> values = getCellList(sheet.getRow(i));
             add(values.toArray());
         }
