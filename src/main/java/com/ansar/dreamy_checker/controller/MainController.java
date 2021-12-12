@@ -2,6 +2,8 @@ package com.ansar.dreamy_checker.controller;
 
 import com.ansar.dreamy_checker.business.extractor.ExcelProductExtractor;
 import com.ansar.dreamy_checker.business.extractor.ExcelWorkbookExtractor;
+import com.ansar.dreamy_checker.business.extractor.ExcelWorkbookMode;
+import com.ansar.dreamy_checker.creator.ProductExcelCreator;
 import com.ansar.dreamy_checker.database.query_executer.FirstIdExtractor;
 import com.ansar.dreamy_checker.model.pojo.Product;
 import com.ansar.dreamy_checker.model.pojo.UniqueProductProperty;
@@ -32,7 +34,6 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -61,6 +62,8 @@ public class MainController implements Initializable {
 
     private final ExcelWorkbookExtractor excelWorkbookExtractor;
 
+    private final ProductExcelCreator productExcelCreator;
+
     private final DialogViewer dialogViewer;
 
     private static final ObservableList<UniqueProductProperty> PRODUCT_ID_REPOSITORY = FXCollections.observableArrayList();
@@ -78,15 +81,13 @@ public class MainController implements Initializable {
      * When user clicks on select file button
      */
     public void selectFile() {
-
         File file = FILE_CHOOSER.showOpenDialog(new Stage());
         if (file == null){
             log.info("Exiting FILE_CHOOSER");
             return;
         }
 
-        try(FileInputStream inputStream = new FileInputStream(file)) {
-            Workbook workbook = excelWorkbookExtractor.extractWorkbook(inputStream, file);
+        try(Workbook workbook = excelWorkbookExtractor.extractWorkbook(file, ExcelWorkbookMode.READ)) {
             Sheet sheet = workbook.getSheetAt(0);
             ExcelTable excelTable = new ExcelTable(sheet);
             kalaTable.getItems().addAll(excelProductExtractor.extractProducts(excelTable));
@@ -105,7 +106,14 @@ public class MainController implements Initializable {
     /**
      * When user clicks on create Excel file button
      */
-    public void createExcel() {
+    public void createExcel() throws IOException {
+        File file = FILE_CHOOSER.showSaveDialog(new Stage());
+        if (file == null){
+            log.info("Exiting file chooser");
+            return;
+        }
+
+        productExcelCreator.createProductExcel(kalaTable.getItems(), file);
     }
 
     private void tableConfiguration(){
