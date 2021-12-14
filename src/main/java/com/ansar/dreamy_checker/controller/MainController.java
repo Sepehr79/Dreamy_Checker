@@ -36,6 +36,7 @@ import org.springframework.stereotype.Component;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.IllegalFormatFlagsException;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
@@ -109,11 +110,15 @@ public class MainController implements Initializable {
     public void createExcel() throws IOException {
         File file = FILE_CHOOSER.showSaveDialog(new Stage());
         if (file == null){
-            log.info("Exiting file chooser");
+            log.info("Exiting FILE_CHOOSER");
             return;
         }
 
-        productExcelCreator.createProductExcel(kalaTable.getItems(), file);
+        try {
+            productExcelCreator.createProductExcel(kalaTable.getItems(), file);
+        }catch (IllegalFormatFlagsException exception){
+            dialogViewer.showDialog("خطا", "فرمت وارد شده صحیح نمی باشد(xls, xlsx)", Alert.AlertType.ERROR);
+        }
     }
 
     private void tableConfiguration(){
@@ -145,13 +150,12 @@ public class MainController implements Initializable {
         kalaCodeTextField.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER && !kalaCodeTextField.getText().equals("")){
                 String id = kalaCodeTextField.getText().trim();
-                String queryId;
                 if (tableContainsId(id)){
                     log.info("Kala found on table: {}", id);
                     PRODUCT_ID_REPOSITORY.add(new UniqueProductProperty(id));
-                } else if ((queryId = firstIdExtractor.extractFirstId(id)) != null){
-                    log.info("Kala found on database: {}", queryId);
-                    PRODUCT_ID_REPOSITORY.add(new UniqueProductProperty(queryId));
+                } else if ((id = firstIdExtractor.extractFirstId(id)) != null && tableContainsId(id)){
+                    log.info("Kala found on database: {}", id);
+                    PRODUCT_ID_REPOSITORY.add(new UniqueProductProperty(id));
                 } else {
                     dialogViewer.showDialog("خطا", "کالا یافت نشد", Alert.AlertType.ERROR);
                 }
