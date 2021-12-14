@@ -109,7 +109,7 @@ public class MainController implements Initializable {
     public void createExcel() throws IOException {
         File file = FILE_CHOOSER.showSaveDialog(new Stage());
         if (file == null){
-            log.info("Exiting file chooser");
+            log.info("Exiting FILE_CHOOSER");
             return;
         }
 
@@ -145,13 +145,12 @@ public class MainController implements Initializable {
         kalaCodeTextField.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER && !kalaCodeTextField.getText().equals("")){
                 String id = kalaCodeTextField.getText().trim();
-                String queryId;
                 if (tableContainsId(id)){
                     log.info("Kala found on table: {}", id);
                     PRODUCT_ID_REPOSITORY.add(new UniqueProductProperty(id));
-                } else if ((queryId = firstIdExtractor.extractFirstId(id)) != null){
-                    log.info("Kala found on database: {}", queryId);
-                    PRODUCT_ID_REPOSITORY.add(new UniqueProductProperty(queryId));
+                } else if ((id = firstIdExtractor.extractFirstId(id)) != null && tableContainsId(id)){
+                    log.info("Kala found on database: {}", id);
+                    PRODUCT_ID_REPOSITORY.add(new UniqueProductProperty(id));
                 } else {
                     dialogViewer.showDialog("خطا", "کالا یافت نشد", Alert.AlertType.ERROR);
                 }
