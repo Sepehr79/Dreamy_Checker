@@ -5,6 +5,7 @@ import com.ansar.dreamy_checker.business.extractor.ExcelWorkbookMode;
 import com.ansar.dreamy_checker.model.pojo.Product;
 import javafx.collections.ObservableList;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -15,6 +16,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.Objects;
 import java.util.stream.IntStream;
 
 @Component
@@ -28,11 +30,13 @@ public class ProductExcelCreator {
 
     private final ExcelWorkbookExtractor excelWorkbookExtractor;
 
-    public void createProductExcel(ObservableList<Product> products, File file) throws IOException {
+    @SneakyThrows
+    public void createProductExcel(ObservableList<Product> products, File file) {
 
-        Workbook workbook = null;
+        // Throws IllegalFormatFlagsException if the file format was incorrect
+        Workbook workbook = excelWorkbookExtractor.extractWorkbook(file, ExcelWorkbookMode.WRITE);
+
         try (OutputStream outputStream = new FileOutputStream(file)){
-            workbook = excelWorkbookExtractor.extractWorkbook(file, ExcelWorkbookMode.WRITE);
             Sheet sheet = workbook.createSheet("products");
             setRowValues(0, sheet, KALA_NAME, KALA_ID, KALA_COUNT, KALA_TYPE);
             IntStream.range(0, products.size()).forEach(i -> setRowValues(
@@ -47,8 +51,7 @@ public class ProductExcelCreator {
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
-            assert workbook != null;
-            workbook.close();
+            Objects.requireNonNull(workbook).close();
         }
     }
 

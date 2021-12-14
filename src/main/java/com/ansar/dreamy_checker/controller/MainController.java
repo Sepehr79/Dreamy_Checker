@@ -36,6 +36,7 @@ import org.springframework.stereotype.Component;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.IllegalFormatFlagsException;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
@@ -113,7 +114,11 @@ public class MainController implements Initializable {
             return;
         }
 
-        productExcelCreator.createProductExcel(kalaTable.getItems(), file);
+        try {
+            productExcelCreator.createProductExcel(kalaTable.getItems(), file);
+        }catch (IllegalFormatFlagsException exception){
+            dialogViewer.showDialog("خطا", "فرمت وارد شده صحیح نمی باشد(xls, xlsx)", Alert.AlertType.ERROR);
+        }
     }
 
     private void tableConfiguration(){
