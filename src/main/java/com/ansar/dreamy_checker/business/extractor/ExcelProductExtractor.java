@@ -7,17 +7,16 @@ import com.ansar.dreamy_checker.model.table.excel.ExcelTable;
 import com.ansar.dreamy_checker.model.table.exception.TableColumnNotFoundException;
 import org.springframework.stereotype.Component;
 
-import java.nio.charset.StandardCharsets;
 import java.util.LinkedList;
 import java.util.List;
 
 @Component
 public class ExcelProductExtractor {
 
-    private static final String KALA_NAME = new String("نام کالا".getBytes(StandardCharsets.UTF_8));
-    private static final String KALA_ID = new String("کد کالا".getBytes(StandardCharsets.UTF_8));
-    private static final String KALA_COUNT = new String("شارژ واحد دوم".getBytes(StandardCharsets.UTF_8));
-    private static final String KALA_TYPE = new String("واحد دوم".getBytes(StandardCharsets.UTF_8));
+    private static final String KALA_NAME = "نام کالا";
+    private static final String KALA_ID = "کد کالا";
+    private static final String KALA_COUNT = "شارژ واحد دوم";
+    private static final String KALA_TYPE = "واحد دوم";
 
     public List<Product> extractProducts(ExcelTable excelTable) throws TableColumnNotFoundException {
         List<Product> products = new LinkedList<>();
