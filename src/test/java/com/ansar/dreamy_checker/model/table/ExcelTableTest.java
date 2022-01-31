@@ -1,8 +1,5 @@
 package com.ansar.dreamy_checker.model.table;
 
-import com.ansar.dreamy_checker.business.extractor.ExcelWorkbookExtractor;
-import com.ansar.dreamy_checker.creator.ProductExcelCreator;
-import com.ansar.dreamy_checker.model.pojo.Product;
 import com.ansar.dreamy_checker.model.table.excel.ExcelTable;
 import com.ansar.dreamy_checker.model.table.exception.IrregularTableException;
 import com.ansar.dreamy_checker.model.table.exception.TableColumnNotFoundException;
@@ -13,10 +10,8 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.junit.jupiter.api.Test;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.LinkedList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -42,8 +37,8 @@ class ExcelTableTest {
 
     @Test
     void testReadingExcelFile() throws IOException {
-        try(InputStream inputStream =
-                    this.getClass().getClassLoader().getResourceAsStream(EXCEL_FILE)) {
+        try (InputStream inputStream =
+                     this.getClass().getClassLoader().getResourceAsStream(EXCEL_FILE)) {
             assertNotNull(inputStream);
 
             XSSFWorkbook xssfWorkbook = new XSSFWorkbook(inputStream);
@@ -52,14 +47,14 @@ class ExcelTableTest {
             try {
                 ExcelTable simpleTable = new ExcelTable(xssfSheet);
                 log.info("\n" + simpleTable);
-                assertEquals( "456412" ,simpleTable.getCell(0, 0).getValue());
+                assertEquals("456412", simpleTable.getCell(0, 0).getValue());
                 assertEquals("ماست", simpleTable.getCell(2, 2).getValue());
                 simpleTable.getCell(50, 100);
                 fail();
             } catch (IrregularTableException e) {
                 e.printStackTrace();
                 fail();
-            } catch (TableIndexOutOfBoundException e){
+            } catch (TableIndexOutOfBoundException e) {
                 log.info(e.toString());
             }
         }

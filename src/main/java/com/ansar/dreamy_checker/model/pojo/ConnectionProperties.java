@@ -1,10 +1,12 @@
 package com.ansar.dreamy_checker.model.pojo;
 
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
-@Builder
+@Builder(toBuilder = true)
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode
 public class ConnectionProperties {
 
     private String host;
@@ -12,5 +14,7 @@ public class ConnectionProperties {
     private String databaseName;
     private String userName;
     private String password;
+
+
 
 }
