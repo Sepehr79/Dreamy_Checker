@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
 
 @Component
 @RequiredArgsConstructor
-public class ConnectionManager {
+public class ConnectionSecurityManager {
 
     private static final String FILE_NAME = "application";
 
@@ -35,7 +35,7 @@ public class ConnectionManager {
     public ConnectionProperties readConnection() throws IOException {
         ConnectionProperties connectionProperties = jsonManager.readJson(FILE_NAME, ConnectionProperties.class);
         String password = connectionProperties.getPassword();
-        if (password.matches("\\[.*]")){
+        if (password.matches(PATTERN.pattern())){
             return connectionProperties.toBuilder()
                     .password(password.substring(1, password.length() - 1))
                     .build();

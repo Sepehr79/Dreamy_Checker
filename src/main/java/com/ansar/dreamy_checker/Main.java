@@ -4,6 +4,7 @@ import com.ansar.dreamy_checker.view.ViewLoader;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -16,14 +17,17 @@ public class Main extends Application {
 
     private ViewLoader viewLoader;
 
+    private AnnotationConfigApplicationContext applicationContext;
+
     @Override
     public void init(){
-        AnnotationConfigApplicationContext springContext = new AnnotationConfigApplicationContext(Main.class);
-        viewLoader = springContext.getBean("viewLoader", ViewLoader.class);
+        applicationContext = new AnnotationConfigApplicationContext(Main.class);
+        viewLoader = applicationContext.getBean("viewLoader", ViewLoader.class);
     }
 
     @Override
     public void stop(){
+        applicationContext.close();
         System.exit(0);
     }
 

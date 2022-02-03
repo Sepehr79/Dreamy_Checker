@@ -1,4 +1,7 @@
 {
-  "port": 0,
-  "password": "[123456789]"
+  "host": "localhost",
+  "port": 1433,
+  "databaseName": "1399",
+  "userName": "sepehr",
+  "password": "VjFST2QxSnRWbkpPVld4VlYwZG9UMXBYZUVaUFVUMDk\u003d"
 }

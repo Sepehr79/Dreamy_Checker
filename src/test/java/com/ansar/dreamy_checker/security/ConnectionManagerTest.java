@@ -16,7 +16,7 @@ class ConnectionManagerTest {
         EncryptedDecrypted encryptedDecrypted = new EncryptedDecrypted();
         ReflectionTestUtils.setField(encryptedDecrypted, "counter", 5);
         JsonManager jsonManager = new JsonManager();
-        ConnectionManager connectionManager = new ConnectionManager(
+        ConnectionSecurityManager connectionManager = new ConnectionSecurityManager(
                 jsonManager,
                 encryptedDecrypted
         );
@@ -48,7 +48,7 @@ class ConnectionManagerTest {
         ReflectionTestUtils.setField(encryptedDecrypted, "counter", 6);
         jsonManager.createJson(connectionProperties, "application", ConnectionProperties.class);
 
-        ConnectionManager connectionManager = new ConnectionManager(jsonManager, encryptedDecrypted);
+        ConnectionSecurityManager connectionManager = new ConnectionSecurityManager(jsonManager, encryptedDecrypted);
         assertEquals("123456789", connectionManager.readConnection().getPassword());
     }
 
